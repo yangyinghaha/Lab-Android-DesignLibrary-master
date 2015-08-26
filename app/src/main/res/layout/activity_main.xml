@@ -1,0 +1,133 @@
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawerLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.inthecheesefactory.lab.designlibrary.activity.MainActivity">
+    <!--必须使用CoordinatorLayout才会有向上隐藏的效果，
+    extends ViewGroup implements NestedScrollingParent-->
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/rootLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--继承垂直的LinerLayout-->
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <!--scroll- 你想你想要设置这个 view 随着内容滚动，你需要应用这个标志；
+            exitUntilCollapsed- View 被折叠起来时关闭滚动，继承FrameLayout-->
+            <!--app:contentScrim="?attr/colorPrimary"App bar在收缩的时候变回普通颜色-->
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/collapsingToolbarLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:contentScrim="?attr/colorPrimary"
+                app:expandedTitleMarginStart="@dimen/expanded_toolbar_title_margin_start"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/background"
+                    app:layout_collapseMode="parallax"
+                    app:layout_collapseParallaxMultiplier="0.7" />
+
+            <!--enterAlwaysCollapsed- 这个标志定义了 View 是如何回到屏幕的。当你的 view 已经声明了一个最小高度(minHeight)
+             并且你使用了这个标志，你的 View 只有在回到这个最小的高度的时候才会展开，
+             只有当 view 已经到达顶部之后它才会重新展开全部高度。滚动标志像这样来使用它：scroll|enterAlwaysCollapsed-->
+
+                <!--app:layout_collapseMode="pin"我们可以声明这个属性给 Toolbar 来固定住它，让它总是在屏幕的顶部。-->
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:layout_scrollFlags="scroll|enterAlways"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+
+            <!--<android.support.design.widget.TabLayout-->
+                <!--android:id="@+id/tab_layout"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="35dp"-->
+                <!--/>-->
+        </android.support.design.widget.AppBarLayout>
+        <!-- NestedScrollView 跟scroview相似，不过NestedScrollView可以兼容新的组件
+        appbar_scrolling_view_behavior 跟AppBarLayout关联，如果去掉属性，布局会重叠-->
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <!--输入框，可以在代码中设置错误提示，自带动画效果-->
+                <android.support.design.widget.TextInputLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Username" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/text_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Password" />
+                </android.support.design.widget.TextInputLayout>
+
+                <include layout="@layout/long_content"/>
+                <android.support.v4.view.ViewPager
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/vp"/>
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+        <!-- 浮动按钮-->
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="@dimen/fab_margin_bottom"
+            android:layout_marginRight="@dimen/fab_margin_right"
+            android:src="@drawable/ic_plus"
+            app:borderWidth="0dp"
+            app:fabSize="normal" />
+
+    </android.support.design.widget.CoordinatorLayout>
+
+    <!-- 抽屉布局的菜单
+    app:headerLayout="@layout/nav_header"   头布局
+    app:menu="@menu/navigation_drawer_items"  加载菜单，自带监听，可以在代码中设置listener-->
+    <android.support.design.widget.NavigationView
+        android:id="@+id/navigation"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/nav_header"
+        app:itemIconTint="@color/nav_item_icon_tint_color"
+        app:itemTextColor="@color/nav_item_text_color"
+        app:menu="@menu/navigation_drawer_items"
+        />
+
+</android.support.v4.widget.DrawerLayout>
